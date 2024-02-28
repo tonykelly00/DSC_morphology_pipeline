@@ -17,66 +17,6 @@ import os
 import glob
 
 
-desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop') 
-mypath = desktop
-python = '//10.10.20.24/messdaten/Tony/Bonn/Data/Distal_Dendrite/Morphology/Human_DG/python/'
-os.chdir(python)
-
-#sys.path.insert(0,'/path/to/mod_directory') # can also use path insert to add to paths
-
-from Branch_analysis import branch_dsc
-
-#%% test manual plot
-
-data=HDGdata['branch4']['data']
-
-plt.plot(data['length'], data['diam'])
-
-#%% load data and update scripts
-HDGdata = {}
-HDGdata['branch1'] = {'path':'//10.10.20.24/messdaten/Tony/Bonn/Data/Distal_Dendrite/Morphology/Human_DG/2023-12-15/tables/'} 
-HDGdata['branch1']['file']= 'dend1 - Local Diameter1.csv'
-HDGdata['branch1']['ex_factor'] = 1
-HDGdata['branch1']['res'] = 0.0457972 
-
-HDGdata['branch2'] = {'path':'//10.10.20.24/messdaten/Tony/Bonn/Data/Distal_Dendrite/Morphology/Human_DG/2023-12-15/tables/'} 
-HDGdata['branch2']['file']= 'dend2 - Local Diameter.csv'
-HDGdata['branch2']['ex_factor'] = 1
-HDGdata['branch2']['res'] = 0.0457972
-
-HDGdata['branch3'] = {'path':'//10.10.20.24/messdaten/Tony/Bonn/Data/Distal_Dendrite/Morphology/Human_DG/2023-12-15/tables/'} 
-HDGdata['branch3']['file']= 'dend3 - Local Diameter.csv'
-HDGdata['branch3']['ex_factor'] = 1
-HDGdata['branch3']['res'] = 0.0457972
-
-HDGdata['branch4'] = {'path':'//10.10.20.24/messdaten/Tony/Bonn/Data/Distal_Dendrite/Morphology/Human_DG/2023-12-15/tables/'} 
-HDGdata['branch4']['file']= 'dend4 - Local Diameter.csv'
-HDGdata['branch4']['ex_factor'] = 1
-HDGdata['branch4']['res'] = 0.0457972
-
-os.chdir("//10.10.20.24/messdaten/Tony/Bonn/Data/Distal_Dendrite/Morphology/Human_DG/2023-12-15/tables")
-for file in glob.glob("*"):
-    print(file)
-
-##redo all others to path and file
-# file_path = data['CA1_G06_cell3_d1']['path']+data['CA1_G06_cell3_d1']['file']
-# data['CA1_G06_cell3_d1'] = branch_dsc(file_path, data['CA1_G06_cell3_d1']['res'], data['CA1_G06_cell3_d1']['ex_factor'])
-
-
-# file_path = data['CA1_G06_cell3_d1']['path']+data['CA1_G06_cell3_d1']['file']
-# data['CA1_G06_cell3_d1'] = branch_dsc(file_path, data['CA1_G06_cell3_d1']['res'], data['CA1_G06_cell3_d1']['ex_factor'])
-frames=[HDGdata]
-for data in frames:
-    for name, path in data.items(): 
-        print(data[name]['path'])
-        file_path = data[name]['path']+data[name]['file']
-        data[name] = branch_dsc(file_path, mypath, data[name]['res'], data[name]['ex_factor'])
-
-## add manual to the data dictionary 
-##add manual DSC6 -DSC 6 and 7 together and baseline did not return to minimum value between the 2 DSCs 
-
-
-
 ### update DSC properties list after addition of manual DSCs
 def update_DSCs(Branch):
     Dict = Branch
@@ -199,7 +139,9 @@ def summary_data(data, parameter):
     fig.savefig('C:/Users/Tony Kelly/Desktop/DSC_mean.eps', bbox_inches = 'tight')
     
     return all_values
-    
+
+
+'''
 ###cummulative probabliltiy
 df= summary_data(HDGdata, 'mean')
 CI(df[0])
@@ -272,3 +214,5 @@ df=pd.DataFrame(shaft_length)
 CI(df)  
 df.mean()
 df.std()
+
+'''
