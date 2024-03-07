@@ -44,8 +44,8 @@ def branch_dsc(path, res, ex_factor):
     
     #important varibles 
     p = 200 # prominence the steepness of the drop in diameter
-    peak_diff = 20 # peak derivative used to find start and end of DSC
-    r = 0.75 # min recovery factor of Diam after diam 
+    peak_diff = 8 # peak derivative used to find start and end of DSC
+    r = 0.7 # min recovery factor of Diam after diam 
     
     #this finds all local minimums and scans each minimum if DSC
     def find_DSCs():
@@ -61,7 +61,7 @@ def branch_dsc(path, res, ex_factor):
         DSCs = []
         DSC_properties = []
         
-        peaks = peaks[0:]
+        peaks = peaks[(df.smth[peaks]<500)]
         for rows in peaks:
             #print(rows)
             if rows < 5: #skips peak within 5 point from begining
@@ -145,6 +145,7 @@ def branch_dsc(path, res, ex_factor):
     DSCs, DSC_properties, peaks = find_DSCs()
     Dict['DSCs']=DSCs
     Dict['DSC_properties']=DSC_properties
+    Dict['peaks']=peaks
     
 
     def find_compartments():
@@ -180,3 +181,54 @@ def branch_dsc(path, res, ex_factor):
 
     Dict['data']=df  #update origniak data with smth and derivative
     return Dict 
+
+## add manual to the data dictionary 
+##add manual DSC6 -DSC 6 and 7 together and baseline did not return to minimum value between the 2 DSCs 
+
+### update DSC properties list after addition of manual DSCs
+def update_DSCs(Branch):
+    Dict = Branch
+    Dict['DSC_properties'] =[]
+    for DSC in Dict['DSCs']:
+        # ax1.plot(DSC.diam)
+        
+        ### plot original size
+        # ax1.plot(DSC.length, DSC.smth, color='c')
+        
+        
+        minX=np.argmin(DSC.smth)
+        
+        start = np.argmax(DSC.deriv2[0:minX]) #+ DSC.index[0])
+        end = np.argmax(DSC.deriv2[minX:]) + minX #+ DSC.index[0])
+    
+        Dict['DSC_properties'].append({'minimum':min(DSC.smth), 'mean':np.mean(DSC.smth[start:end]), 'distance':DSC.length[DSC.length.index[0]], 'length':sum(DSC.pt_distance)})
+
+def update_compartments(Branch):
+        Dict = Branch     
+        compartments = []
+        comp_properties = []
+        for i, DSC in enumerate(Dict['DSCs']): #for DSC in DSCs:
+        
+            
+            start_i=Dict['DSCs'][i].index.stop
+            
+            if i<len(Dict['DSCs'])-1:
+                end_i =Dict['DSCs'][i+1].index.start
+            
+            elif i==len(Dict['DSCs'])-1:
+                end_i =Dict['data'].index.stop
+                
+            
+            compartments.append(Dict['data'][start_i:end_i].copy())
+            compartments[i].diam*=1/Dict['ex_factor']
+            compartments[i].smth*=1/Dict['ex_factor']
+            compartments[i].length*=Dict['res']/Dict['ex_factor']
+            compartments[i].pt_distance*=Dict['res']/Dict['ex_factor']
+            
+        for comp in compartments:  
+             if comp.empty==False:
+                comp_properties.append({'mean':np.mean(comp.smth), 'distance':min(comp.length), 'length':max(comp.length)-min(comp.length)}) #used sum(DSC.pt_distance) but error with old pt distance data
+        
+            
+        Dict['compartments']=compartments
+        Dict['compt_properties']=comp_properties

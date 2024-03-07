@@ -5,14 +5,22 @@ import numpy as np
 
 def plot_dsc(Dict):
     Dict_data=Dict        
+    corrected=1 #use uncorrected to check against data
     for name, d  in Dict_data.items():
             df=d['data']
             fig, ax1 = plt.subplots()
-            ax1.plot(df.length*d['res']/d['ex_factor'], df.diam/d['ex_factor']) 
-            ax1.plot(df.length*d['res']/d['ex_factor'], df.smth/d['ex_factor']) 
+            if corrected==1:
+                ax1.plot(df.length*d['res']/d['ex_factor'], df.diam/d['ex_factor']) 
+                ax1.plot(df.length*d['res']/d['ex_factor'], df.smth/d['ex_factor'])
+            else:
+                ax1.plot(df.length, df.diam/d['ex_factor']) 
+                ax1.plot(df.length, df.smth/d['ex_factor'])
             for dsc in d['DSCs']:
                     #print(dsc)
-                    ax1.plot(dsc.length, dsc.smth)   
+                    if corrected==1:
+                        ax1.plot(dsc.length, dsc.smth) 
+                    else:
+                        ax1.plot(dsc.length/d['res']*d['ex_factor'], dsc.smth) 
                     # ax1.plot(dic['left_bases'], df.diam[dic['left_bases']], "o", color="red")
                     # ax1.plot(df.length[dic['left_bases']], df.diam[dic['left_bases']], "o", color="red")
                     # ax1.plot(df.length*Dict['res']/Dict['ex_factor'], df.diam[peaks]/Dict['ex_factor'], "x") #ax1.plot(df.length, df.diam[peaks], "x")
