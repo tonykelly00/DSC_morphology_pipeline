@@ -9,12 +9,17 @@ from scipy.io import loadmat
 import numpy as np
 import pandas as pd
 pd.options.mode.chained_assignment = None  # default='warn'
+from pathlib import Path
 
 def branch_dsc(path, res, ex_factor):
     Branch = {}
     Dict = Branch
     Dict['res'] = res #resolution of 0.0676 already accounted for in matlab
     Dict['ex_factor'] = ex_factor
+    Dict['file'] = Path(path).name
+    Dict['path'] = path #path.split("\\")[0]
+   
+    
     # Dict['data'] = pd.read_csv (r'tables\Branch1_Comp_Local Diameter.csv',
     #                     names=['diam', 'length', 'pt_distance','value','x','y','z','j']) #place "r" before the path string to address special character, such as '\'. Don't forget to put the file name at the end of the path + '.xlsx'
     Dict['data'] = pd.read_csv (path, names=['diam', 'length', 'pt_distance','value','x','y','z','j']) #place "r" before the path string to address special character, such as '\'. Don't forget to put the file name at the end of the path + '.xlsx'
@@ -44,7 +49,7 @@ def branch_dsc(path, res, ex_factor):
     
     #important varibles 
     p = 200 # prominence the steepness of the drop in diameter
-    peak_diff = 8 # peak derivative used to find start and end of DSC
+    peak_diff = 5 # peak derivative used to find start and end of DSC
     r = 0.7 # min recovery factor of Diam after diam 
     
     #this finds all local minimums and scans each minimum if DSC
@@ -60,7 +65,7 @@ def branch_dsc(path, res, ex_factor):
         end =[]
         DSCs = []
         DSC_properties = []
-        
+                
         peaks = peaks[(df.smth[peaks]<500)]
         for rows in peaks:
             #print(rows)
@@ -69,23 +74,23 @@ def branch_dsc(path, res, ex_factor):
             
             i=5
             rows = rows - 5 + np.argmin(df.smth[rows-5:rows+5])
-            while diam_diff[rows-i] <= +peak_diff and rows-i>0: #and that rows-1 is at start of trace and valued >0 
+            while diam_diff[rows-i-10:rows-i].mean() <= +peak_diff and rows-i-5>0: #and that rows-1 is at start of trace and valued >0 
                 #print("previous decrease i {}, diam {}".format(i, df.diam[rows-i], df.deriv[rows-i]) )
                 i+=1
             
-            start_i=df.smth[rows-i: rows].idxmax() # index of max diam between begining and middle of DSC
+            start_i=df.smth[rows-i-10: rows].idxmax() # index of max diam between begining and middle of DSC
             start.append(df.loc[start_i,:])
             
             i=5
-            while diam_diff[rows+i] >= -peak_diff:
+            while diam_diff[rows+i:rows+i+10].mean() >= -peak_diff:
                 # print("next decrease i {}, diam {}".format(i, df.diam[i+1]) )
                
-                if rows+i+1==diam_diff.size:    #skips if end after the length of the segment
+                if rows+i+5==diam_diff.size:    #skips if end after the length of the segment
                     break
                 i+=1
                 
             end_i=rows+i
-            end_i=df.smth[rows: rows+i].idxmax()
+            end_i=df.smth[rows: rows+i+10].idxmax()
             end.append(df.loc[end_i,:])
             
             if df.smth[rows]< df.smth[start_i]/2 and df.smth[end_i] > df.smth[start_i]*r:  # if df.smth[rows]< df.smth[start_i]/2 and df.smth[end_i] > df.smth[start_i]*0.75:
