@@ -5,7 +5,7 @@ import numpy as np
 
 def plot_dsc(Dict):
     Dict_data=Dict        
-    corrected=0 #use uncorrected to check against data
+    corrected=1 #use uncorrected to check against data
     for name, d  in Dict_data.items():
             df=d['data']
             peaks=d['peaks']

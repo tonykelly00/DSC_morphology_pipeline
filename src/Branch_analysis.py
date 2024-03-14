@@ -51,6 +51,7 @@ def branch_dsc(path, res, ex_factor):
     p = 200 # prominence the steepness of the drop in diameter
     peak_diff = 5 # peak derivative used to find start and end of DSC
     r = 0.7 # min recovery factor of Diam after diam 
+    l = 12 # number of points to average to get peak diff when finding stable start and end (try to avoid short drops) 
     
     #this finds all local minimums and scans each minimum if DSC
     def find_DSCs():
@@ -74,15 +75,15 @@ def branch_dsc(path, res, ex_factor):
             
             i=5
             rows = rows - 5 + np.argmin(df.smth[rows-5:rows+5])
-            while diam_diff[rows-i-10:rows-i].mean() <= +peak_diff and rows-i-5>0: #and that rows-1 is at start of trace and valued >0 
+            while diam_diff[rows-i-l:rows-i].mean() <= +peak_diff and rows-i-l>0: #and that rows-1 is at start of trace and valued >0 
                 #print("previous decrease i {}, diam {}".format(i, df.diam[rows-i], df.deriv[rows-i]) )
                 i+=1
             
-            start_i=df.smth[rows-i-10: rows].idxmax() # index of max diam between begining and middle of DSC
+            start_i=df.smth[rows-i-l: rows].idxmax() # index of max diam between begining and middle of DSC
             start.append(df.loc[start_i,:])
             
             i=5
-            while diam_diff[rows+i:rows+i+10].mean() >= -peak_diff:
+            while diam_diff[rows+i:rows+i+l].mean() >= -peak_diff:
                 # print("next decrease i {}, diam {}".format(i, df.diam[i+1]) )
                
                 if rows+i+5==diam_diff.size:    #skips if end after the length of the segment
@@ -90,7 +91,7 @@ def branch_dsc(path, res, ex_factor):
                 i+=1
                 
             end_i=rows+i
-            end_i=df.smth[rows: rows+i+10].idxmax()
+            end_i=df.smth[rows: rows+i+l].idxmax()
             end.append(df.loc[end_i,:])
             
             if df.smth[rows]< df.smth[start_i]/2 and df.smth[end_i] > df.smth[start_i]*r:  # if df.smth[rows]< df.smth[start_i]/2 and df.smth[end_i] > df.smth[start_i]*0.75:
@@ -139,8 +140,8 @@ def branch_dsc(path, res, ex_factor):
             
             minX=np.argmin(DSC.smth)
             
-            start = np.argmax(DSC.deriv2[0:minX]) #+ DSC.index[0])
-            end = np.argmax(DSC.deriv2[minX:]) + minX #+ DSC.index[0])
+            start = np.argmin(DSC.deriv2[0:minX-3]) #+ DSC.index[0])
+            end = np.argmax(DSC.deriv2[minX+3:]) + minX+3 #+ DSC.index[0])
         
             DSC_properties.append({'minimum':min(DSC.smth), 'mean':np.mean(DSC.smth[start:end]), 'distance':DSC.length[DSC.length.index[0]], 'length':(DSC.length[DSC.length.index[0]+end])-(DSC.length[DSC.length.index[0]+start])}) #'length':max(DSC.length)-min(DSC.length) #used sum(DSC.pt_distance) but error with old pt distance data       
         
