@@ -135,8 +135,8 @@ def summary_data(data, parameter):
         all_values.append(branch_param)
     
     all_values = pd.DataFrame(data=all_values)  
-    ax, fig = plot_stats(all_values.transpose())
-    fig.savefig('C:/Users/Tony Kelly/Desktop/DSC_mean.eps', bbox_inches = 'tight')
+    #ax, fig = plot_stats(all_values.transpose())
+    # fig.savefig('C:/Users/Tony Kelly/Desktop/DSC_mean.eps', bbox_inches = 'tight')
     
     return all_values
 
