@@ -5,7 +5,7 @@ import numpy as np
 
 def plot_dsc(Dict):
     Dict_data=Dict        
-    corrected=1 #use uncorrected to check against data
+    corrected=0 #use uncorrected to check against data
     for name, d  in Dict_data.items():
             df=d['data']
             peaks=d['peaks']
@@ -15,15 +15,15 @@ def plot_dsc(Dict):
                 ax1.plot(df.length*d['res']/d['ex_factor'], df.smth/d['ex_factor'])
                 ax1.plot(df.length[peaks]*d['res']/d['ex_factor'], df.diam[peaks]/d['ex_factor'], "x")
             else:
-                ax1.plot(df.length, df.diam/d['ex_factor']) 
-                ax1.plot(df.length, df.smth/d['ex_factor'])
-                ax1.plot(df.length[peaks], df.diam[peaks]/d['ex_factor'], "x")
+                ax1.plot(df.diam/d['ex_factor']) 
+                ax1.plot(df.smth/d['ex_factor'])
+                ax1.plot(peaks, df.diam[peaks]/d['ex_factor'], "x")
             for dsc in d['DSCs']:
                     #print(dsc)
                     if corrected==1:
                         ax1.plot(dsc.length, dsc.smth) 
                     else:
-                        ax1.plot(dsc.length/d['res']*d['ex_factor'], dsc.smth) 
+                        ax1.plot(dsc.smth) 
                     # ax1.plot(dic['left_bases'], df.diam[dic['left_bases']], "o", color="red")
                     # ax1.plot(df.length[dic['left_bases']], df.diam[dic['left_bases']], "o", color="red")
                     # ax1.plot(df.length*Dict['res']/Dict['ex_factor'], df.diam[peaks]/Dict['ex_factor'], "x") #ax1.plot(df.length, df.diam[peaks], "x")
@@ -31,6 +31,7 @@ def plot_dsc(Dict):
                     # plt.xlim(270,285)
                     # plt.ylim(200,1250)
             plt.title(name)
+    return fig, ax1
 
 
 #%% cumulative analysis of all dendrites 

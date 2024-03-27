@@ -67,7 +67,7 @@ def branch_dsc(path, res, ex_factor):
         DSCs = []
         DSC_properties = []
                 
-        peaks = peaks[(df.smth[peaks]<500)]
+        peaks = peaks[(df.smth[peaks]/Dict['ex_factor']<500)]
         for rows in peaks:
             #print(rows)
             if rows < 5: #skips peak within 5 point from begining
