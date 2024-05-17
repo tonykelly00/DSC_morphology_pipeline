@@ -11,11 +11,11 @@ def plot_dsc(Dict):
             peaks=d['peaks']
             fig, ax1 = plt.subplots()
             if corrected==1:
-                ax1.plot(df.length*d['res']/d['ex_factor'], df.diam/d['ex_factor']) 
+                #ax1.plot(df.length*d['res']/d['ex_factor'], df.diam/d['ex_factor']) 
                 ax1.plot(df.length*d['res']/d['ex_factor'], df.smth/d['ex_factor'])
                 ax1.plot(df.length[peaks]*d['res']/d['ex_factor'], df.diam[peaks]/d['ex_factor'], "x")
             else:
-                ax1.plot(df.diam/d['ex_factor']) 
+                #ax1.plot(df.diam/d['ex_factor']) 
                 ax1.plot(df.smth/d['ex_factor'])
                 ax1.plot(peaks, df.diam[peaks]/d['ex_factor'], "x")
             for dsc in d['DSCs']:
