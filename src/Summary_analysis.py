@@ -114,8 +114,8 @@ def cummulative_plot(data):
 #%% cumulative analysis of DSC properties all dendrites 
 # import sys
 # the mock-0.3.1 dir contains testcase.py, testutils.py & mock.py
-sys.path.append('M:/Tony/codes/python/stats/')
-from Mean_CI import plot_stats, CI
+#sys.path.append('M:/Tony/codes/python/stats/')
+#from Mean_CI import plot_stats, CI
 
 def summary_data(data, parameter):
     # branches = []
