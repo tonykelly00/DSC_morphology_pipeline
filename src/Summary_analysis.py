@@ -140,6 +140,37 @@ def summary_data(data, parameter):
     
     return all_values
 
+# start = np.round(np.nanmin(n), decimals=2) ##uncomment, remove def and can run independently after ax.hist
+# end=1 
+# n_bins
+
+def avgCDF(data, patches, n_bins, n):
+    df=data
+    
+    start = np.round(np.nanmin(n), decimals=2)
+    end=1
+    bins = np.linspace(start, end, n_bins)
+    com = []
+    for p in patches: #need the patches generated from the n, bins, patches = ax.hist(df, n_bins,...
+        xy=p[0].xy
+        digitized = np.digitize(xy[:,1], bins)
+        d = pd.DataFrame(np.column_stack((xy, digitized)))
+        bin_means  = [d.loc[d[2] == i, 0].min() for i in range(1, len(bins)+1)]
+        com.append(pd.DataFrame(bin_means))
+    
+    df = pd.concat(com, axis=1, ignore_index=True)
+    #df.interpolate(method='linear', axis=0, limit=None, inplace=True)
+    #df.ffill(axis=0, inplace=True)
+    df.bfill(axis=0, inplace=True)
+    
+    df['mean']=df.mean(axis=1)
+    # df['bins']= bins[1:]
+    
+    #bin_means  = [df.loc[df[2] == i, 0].mean() for i in range(1, len(bins))]
+    
+    return df.iloc[1:], np.delete(bins, 0, axis=0)
+    
+
 
 '''
 ###cummulative probabliltiy
