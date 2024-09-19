@@ -117,7 +117,7 @@ def cummulative_plot(data):
 #sys.path.append('M:/Tony/codes/python/stats/')
 #from Mean_CI import plot_stats, CI
 
-def summary_data(data, parameter):
+def summary_dsc(data, parameter):
     # branches = []
     # branches.append(Branch2)
     # branches.append(C1_03_cell2_d3)
@@ -138,6 +138,27 @@ def summary_data(data, parameter):
     #ax, fig = plot_stats(all_values.transpose())
     # fig.savefig('C:/Users/Tony Kelly/Desktop/DSC_mean.eps', bbox_inches = 'tight')
     
+    return all_values
+
+def summary_compt(data, parameter):
+    # branches = []
+    # branches.append(Branch2)
+    # branches.append(C1_03_cell2_d3)
+    
+    param = parameter
+    
+    all_values = []
+    for key, value in data.items():
+        branch_param = []
+        for compt in value['compt_properties']:
+            branch_param.append(compt[param])
+            
+        #branch_param = pd.DataFrame(data=branch_param)    
+        #branch_param.columns = key
+        all_values.append(branch_param)
+    
+    all_values = pd.DataFrame(data=all_values)  
+        
     return all_values
 
 # start = np.round(np.nanmin(n), decimals=2) ##uncomment, remove def and can run independently after ax.hist
