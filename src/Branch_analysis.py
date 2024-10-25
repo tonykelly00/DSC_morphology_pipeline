@@ -238,3 +238,145 @@ def update_compartments(Branch):
             
         Dict['compartments']=compartments
         Dict['compt_properties']=comp_properties
+
+
+def add_branch(data):
+    
+    branch={}
+    branch['C1_03_cell2_d3']={}
+    branch['C1_03_cell2_d3']['name']='C1_03_cell2_d3'
+    branch['C1_03_cell2_d3']['branchNo'] = [[0,0],[1,31],[2,49],[3,130]]
+    
+    branch['C1_03_cell2_d2']={}
+    branch['C1_03_cell2_d2']['name']='C1_03_cell2_d2'
+    branch['C1_03_cell2_d2']['branchNo'] = [[0,0],[1,31],[2,47],[3,94], [4,140],[5,180]]#branch 5 small side branch does not seem to be equal daughter 
+    
+    
+    branch['C1_02_cell1_d2']={}
+    branch['C1_02_cell1_d2']['name']='C1_02_cell1_d2'
+    branch['C1_02_cell1_d2']['branchNo'] = [[0,0],[1,17],[2,48],[3,110]]
+    
+    branch['dendrite1'] = {}
+    branch['dendrite1']['name'] = 'dendrite1'
+    branch['dendrite1']['branchNo'] =  [[0,0],[1,17],[2,137]]
+    
+    branch['dendrite3'] = {}
+    branch['dendrite3']['name'] = 'dendrite3'
+    branch['dendrite3']['branchNo'] =  [[0,7],[1,13],[2,96],[3,201]]
+
+    branch['dendrite4'] = {}
+    branch['dendrite4']['name'] = 'dendrite4'
+    branch['dendrite4']['branchNo'] =  [[0,0],[1,1], [2,160]]
+    
+    for name, dendrite in branch.items():
+        # print(dendrite)
+        data[name]['branchNo'] = dendrite['branchNo']
+
+def FindBranch(data):
+    
+    branch_dic={}
+    mean_dic={}
+    for name, dendrite in data.items():
+        Dict=dendrite
+        df=dendrite['data']
+        # print(data)
+    
+        # fig, ax = plt.subplots()
+        # ax.plot(df.length*Dict['res']/Dict['ex_factor'], df.diam/Dict['ex_factor'])
+        # plt.xlim(0,130)
+    
+        # branchNo = [[0,0],[1,31],[2,49],[3,130]]
+        branchNo = Dict['branchNo']
+        
+    # plt.Figure(figsize(2,2))
+    
+        # fig.dpi=80
+        # fig.figure
+    
+        # plt.title('Binned_Diameters')
+        # plt.ylim(0,1500)
+        # plt.yticks([0,500,1000,1500])
+    
+    
+        df['branchNo']=0    #set branchNo to 0
+    
+        for i in branchNo:  #finds and sets branch No
+            print(i)
+            print(i[1])
+            df.loc[df['length']*Dict['res']/Dict['ex_factor'] > i[1], 'branchNo' ]=i[0]
+            
+        a=[]    
+        for i in branchNo: 
+            a.append(df.loc[df['branchNo'] == i[0]].diam.mean()/Dict['ex_factor'])
+        
+        # branch_df =[]
+        # branch_start=[]
+        # branch_end =[]
+        # for i in branchNo: 
+        #       branch_df=df[['diam', 'length']].loc[df['branchNo'] == 1]
+
+        #       branch_start = branch_df.diam.iloc[50:200].mean()/3.8
+
+        #       branch_end = branch_df.diam.iloc[-200:-1].mean()/3.8
+        a_df = pd.DataFrame(a)
+        mean_dic[name]=a_df
+        
+        
+        
+        branch_data =[]
+        branch_mean=[]
+        branch_start=[]
+        branch_end =[]
+        for i in range(0, df.branchNo.max()+1, 1): 
+            print(i) 
+            branch_df=(df[['smth', 'length']].loc[df['branchNo'] == i])
+            branch_df.length=branch_df.length*Dict['res']/Dict['ex_factor']
+            branch_df.smth=branch_df.smth/Dict['ex_factor']
+            branch_data.append(branch_df)
+            branch_mean.append(branch_df['smth'].mean())
+            branch_start.append(branch_df.smth.iloc[50:200].mean())
+            branch_end.append(branch_df.smth.iloc[-200:-50].mean())
+        
+        branch_info={'branchs':branch_data, 'mean':branch_mean, 'start_diam': branch_start, 'end_diam':branch_end}
+        
+        
+        dropAlongBranch=[]
+        dropAcrossBranch=[]
+        for i in range(0, df.branchNo.max(), 1):
+            total_drop=branch_info['start_diam'][0]-branch_info['end_diam'][-1]
+            dropAlongBranch.append((branch_info['start_diam'][i]-branch_info['end_diam'][i]) / total_drop)        
+            dropAcrossBranch.append((branch_info['end_diam'][i]-branch_info['start_diam'][i+1]) / total_drop)   
+        
+        branch_info.update({'total_drop':total_drop, 'dropAlong':dropAlongBranch, 'dropAcross': dropAcrossBranch})
+        Dict['branch_info'] = branch_info
+    
+   
+    df=pd.concat(mean_dic, axis=1)
+
+def resistances(dend_name, branchNo, data):
+    dend_name
+    branchNo
+
+    p = 180 # resistivity ohms cm
+    l = 0.0001 # 1um length in cm
+    pi = 3.14
+    MegaOhm = 10 **-6 # scale to mega Ohms
+
+    branch_info=data[dend_name]['branch_info']
+    Rdend=[]
+    for branch_data in branch_info['branchs']:
+        m=branch_data['smth'].median()
+        r=(m/2) * 10 **-7 #cm
+        #calculate the resistance of dendritic shaft /um
+        Rd=(p*l)/(pi*(r**2)) * MegaOhm
+        Rdend.append(Rd)
+    
+    branch_info['Rdend']=Rdend
+
+    DSC_props= data[dend_name]['DSC_properties']
+    
+    for dsc in DSC_props:
+        r=dsc['mean']/2 * 10 **-7 #nm diam to cm radius
+        #l = dsc['length'] * 10 **-4 #cm
+
+        dsc['Rmorph'] = (p*l)/(pi*(r**2)) * MegaOhm
