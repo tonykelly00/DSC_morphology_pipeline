@@ -282,54 +282,28 @@ def FindBranch(data):
         df=dendrite['data']
         # print(data)
     
-        # fig, ax = plt.subplots()
-        # ax.plot(df.length*Dict['res']/Dict['ex_factor'], df.diam/Dict['ex_factor'])
-        # plt.xlim(0,130)
-    
-        # branchNo = [[0,0],[1,31],[2,49],[3,130]]
-        branchNo = Dict['branchNo']
-        
-    # plt.Figure(figsize(2,2))
-    
-        # fig.dpi=80
-        # fig.figure
-    
-        # plt.title('Binned_Diameters')
-        # plt.ylim(0,1500)
-        # plt.yticks([0,500,1000,1500])
-    
+        branchNo = Dict['branchNo']    
     
         df['branchNo']=0    #set branchNo to 0
     
         for i in branchNo:  #finds and sets branch No
-            print(i)
-            print(i[1])
+            #print(i)
+            #print(i[1])
             df.loc[df['length']*Dict['res']/Dict['ex_factor'] > i[1], 'branchNo' ]=i[0]
             
         a=[]    
         for i in branchNo: 
             a.append(df.loc[df['branchNo'] == i[0]].diam.mean()/Dict['ex_factor'])
         
-        # branch_df =[]
-        # branch_start=[]
-        # branch_end =[]
-        # for i in branchNo: 
-        #       branch_df=df[['diam', 'length']].loc[df['branchNo'] == 1]
-
-        #       branch_start = branch_df.diam.iloc[50:200].mean()/3.8
-
-        #       branch_end = branch_df.diam.iloc[-200:-1].mean()/3.8
         a_df = pd.DataFrame(a)
-        mean_dic[name]=a_df
-        
-        
+        mean_dic[name]=a_df    
         
         branch_data =[]
         branch_mean=[]
         branch_start=[]
         branch_end =[]
         for i in range(0, df.branchNo.max()+1, 1): 
-            print(i) 
+            #print(i) 
             branch_df=(df[['smth', 'length']].loc[df['branchNo'] == i])
             branch_df.length=branch_df.length*Dict['res']/Dict['ex_factor']
             branch_df.smth=branch_df.smth/Dict['ex_factor']
@@ -358,7 +332,7 @@ def resistances(dend_name, branchNo, data):
     dend_name
     branchNo
 
-    p = 180 # resistivity ohms cm
+    p = 181 # resistivity ohms cm
     l = 0.0001 # 1um length in cm
     pi = 3.14
     MegaOhm = 10 **-6 # scale to mega Ohms
