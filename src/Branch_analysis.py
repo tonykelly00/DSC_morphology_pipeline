@@ -207,8 +207,9 @@ def update_DSCs(Branch):
         start = np.argmax(DSC.deriv2[0:minX]) #+ DSC.index[0])
         end = np.argmax(DSC.deriv2[minX:]) + minX #+ DSC.index[0])
     
-        Dict['DSC_properties'].append({'minimum':min(DSC.smth), 'mean':np.mean(DSC.smth[start:end]), 'distance':DSC.length[DSC.length.index[0]], 'length':sum(DSC.pt_distance)})
+        Dict['DSC_properties'].append({'minimum':min(DSC.smth), 'mean':np.mean(DSC.smth[start:end]), 'distance':DSC.length[DSC.length.index[0]], 'length':(DSC.length[DSC.length.index[0]+end])-(DSC.length[DSC.length.index[0]+start])}) #'length':max(DSC.length)-min(DSC.length) #used sum(DSC.pt_distance) but error with old pt distance data       
 
+        
 def update_compartments(Branch):
         Dict = Branch     
         compartments = []
