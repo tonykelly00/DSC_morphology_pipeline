@@ -11,7 +11,7 @@ import pandas as pd
 pd.options.mode.chained_assignment = None  # default='warn'
 from pathlib import Path
 
-def branch_dsc(path, res, ex_factor):
+def branch_dsc(path, res, ex_factor, p=200, pdiff=5):
     Branch = {}
     Dict = Branch
     Dict['res'] = res #resolution of 0.0676 already accounted for in matlab
@@ -48,8 +48,8 @@ def branch_dsc(path, res, ex_factor):
     df['deriv2'] = diam_deriv2
     
     #important varibles 
-    p = 200 # prominence the steepness of the drop in diameter
-    peak_diff = 5 # peak derivative used to find start and end of DSC
+    p = p # prominence the steepness of the drop in diameter
+    peak_diff = pdiff # 5 peak derivative used to find start and end of DSC
     r = 0.7 # min recovery factor of Diam after diam 
     l = 12 # number of points to average to get peak diff when finding stable start and end (try to avoid short drops) 
     
@@ -140,8 +140,8 @@ def branch_dsc(path, res, ex_factor):
             
             minX=np.argmin(DSC.smth)
             
-            start = np.argmin(DSC.deriv2[0:minX-3]) #+ DSC.index[0])
-            end = np.argmax(DSC.deriv2[minX+3:]) + minX+3 #+ DSC.index[0])
+            start = np.argmin(DSC.deriv2[0:minX-3]) #-3 DSC.index[0])
+            end = np.argmax(DSC.deriv2[minX+3:]) + minX+3 #+3 DSC.index[0])
         
             DSC_properties.append({'minimum':min(DSC.smth), 'mean':np.mean(DSC.smth[start:end]), 'distance':DSC.length[DSC.length.index[0]], 'length':(DSC.length[DSC.length.index[0]+end])-(DSC.length[DSC.length.index[0]+start])}) #'length':max(DSC.length)-min(DSC.length) #used sum(DSC.pt_distance) but error with old pt distance data       
         
