@@ -4,7 +4,7 @@ Here the analysis pipeline of for all dendrites reconstructed using ExM, EM and 
 Analysis of diameters extracted from imaging files is performed in python analysis code is provided on GitHub and extracted diamter data on Zenodo repository 
 
 ### Setup Instructions
-Download the data repository from [Zenodo](link..) and the analysis code from [GitHub](tony.kelly00..).
+Download the data repository from [Zenodo](https://zenodo.org/records/14037025?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImY4NDE2YWU2LTlmMmEtNGY4NS04M2EwLTg4NzhhMTY1NGRhYSIsImRhdGEiOnt9LCJyYW5kb20iOiJiMGI0YmUwYTg3MjI3MThiNjU5MmY4YjVkOGE3MDE5MiJ9.3r6XoHH6eZQwoqN2nKAh0WgprCR1NjNeP7sbtyx3r9XMjD7o_HtmfZ2qxccQYmhidxqBO5on_0IdoWTX1FDYQg) and the analysis code from [GitHub](https://github.com/tonykelly00/DSC_morphology_pipeline.git).
 In ipynb set root folder to location of repo_data/ 
 
 ### Organisation
