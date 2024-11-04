@@ -4,11 +4,11 @@ Here the analysis pipeline of for all dendrites reconstructed using ExM, EM and 
 Analysis of diameters extracted from imaging files is performed in python analysis code is provided on GitHub and extracted diamter data on Zenodo repository 
 
 ### Setup Instructions
-Download the data repository from [Zenodo](link..) and the analysis code from [GitHub](tony.kelly00..)
+Download the data repository from [Zenodo](link..) and the analysis code from [GitHub](tony.kelly00..).
 In ipynb set root folder to location of repo_data/ 
 
 ### Organisation
-Analysis pipeline for each microscopy method run using the respective jupyter notebook. Which loads reconstruction of branch or branch segment from the provided .csv files fould in respective data /table folder.
+Analysis pipeline for each microscopy method run using the respective jupyter notebook. Which loads reconstruction of branch or branch segment from the provided .csv files found in respective data /table folder.
 Reconstructions are compared to raw and binary images and errors are manually corrected, with false positives removes and false negatives added. Changes are noted.
 
 The default code shows the reconstuction and idetified DSCs for the example dendrite in the Figs. Diamters of other dendritic reconstructions can be explored.

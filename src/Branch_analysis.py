@@ -328,6 +328,15 @@ def FindBranch(data):
    
     df=pd.concat(mean_dic, axis=1)
 
+    
+def resistance_branch(dendbranch_dic, data):
+
+    for dend, branchs in dendbranch_dic.items():
+        #print(dend)
+        for b in branchs:
+            #print(b)
+            resistances(dend, b, data)
+
 def resistances(dend_name, branchNo, data):
     dend_name
     branchNo
@@ -355,3 +364,31 @@ def resistances(dend_name, branchNo, data):
         #l = dsc['length'] * 10 **-4 #cm
 
         dsc['Rmorph'] = (p*l)/(pi*(r**2)) * MegaOhm
+
+
+def compile_resistances(data):
+    #compile all resistance data 
+    Rmorph_data={}
+    length_data={}
+    Rdend_data={}
+    #Rmorph_data['dendrite3'] = []  # Initialize a list for each new key
+
+    for dendrite, d in data.items():
+        #print(dendrite)
+        for b in d['DSC_properties']:
+            #print(b)
+            if 'Rmorph' in b:
+                #print(dsc)
+                #print(b['Rmorph'])
+                if dendrite not in Rmorph_data:
+                    Rmorph_data[dendrite] = []  # Initialize a list for each new key
+                    length_data[dendrite] = []
+                Rmorph_data[dendrite].append(b['Rmorph'])
+                length_data[dendrite].append(b['length'])
+        if 'Rdend' in d['branch_info']:
+            Rdend_data[dendrite]=pd.DataFrame(d['branch_info']['Rdend'], columns=['resistance'])
+    # DSC data for the DataFrame
+    df_data = [(key, value) for key, values in Rmorph_data.items() for value in values]
+    length_data=[(key, value) for key, values in length_data.items() for value in values]
+
+    return Rdend_data, df_data, length_data
