@@ -117,6 +117,7 @@ def cummulative_plot(data):
 #sys.path.append('M:/Tony/codes/python/stats/')
 #from Mean_CI import plot_stats, CI
 
+#gets all the values for the selected parmater from the dataset
 def summary_dsc(data, parameter):
     # branches = []
     # branches.append(Branch2)
