@@ -267,7 +267,7 @@ def add_branch(data):
 
     branch['dendrite4'] = {}
     branch['dendrite4']['name'] = 'dendrite4'
-    branch['dendrite4']['branchNo'] =  [[0,0],[1,1], [2,160]]
+    branch['dendrite4']['branchNo'] =  [[0,0],[1,5], [2,160]]
     
     for name, dendrite in branch.items():
         # print(dendrite)
