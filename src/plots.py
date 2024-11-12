@@ -24,12 +24,15 @@ def plot_dsc(dend,name, corr=0):
                 ax1.plot(dsc.length, dsc.smth) 
             else:
                 ax1.plot(dsc.smth) 
+    
+    ax1.set_xlabel("Distance (μm)")
+    ax1.set_ylabel("Diameter (nm)")
   
     plt.title(name)
     return fig, ax1
 
 
-#%% cumulative analysis of all dendrites  
+#% cumulative analysis of all dendrites  
 """
 to calculate where the drop in diameter occurs 
 total drop in diameter over entire lenght
@@ -39,49 +42,54 @@ compared to mean decreas over 10um either side of the branch
 """
 def branch_figs(data, plot_path):
     
-    mean_ls=[]
+    mean_ls = []
     for name, dendrite in data.items():
-        Dict=dendrite
+        Dict = dendrite
         mean_ls.append(Dict['branch_info']['mean'])
          
     df = pd.DataFrame(mean_ls)
     
+    # First plot: Diameter (nm)
     fig, ax = plt.subplots(figsize=(4, 4))
     ax.plot(df.transpose())
-    ax=df.boxplot(grid=False, showfliers=False)
-    plt.ylim(0,2500)
-    plt.yticks([0,500,1000,1500,2000,2500])
-      
-    #fig.savefig(plot_path +'/Diam_branch.svg', bbox_inches = 'tight', format="svg",transparent=True)   
+    ax = df.boxplot(grid=False, showfliers=False, ax=ax)
+    ax.set_ylim(0, 2500)
+    ax.set_yticks([0, 500, 1000, 1500, 2000, 2500])
+    ax.set_xlabel("Branch No.")
+    ax.set_ylabel("Diameter (nm)")
+    # fig.savefig(plot_path + '/Diam_branch.svg', bbox_inches='tight', format="svg", transparent=True)
 
-    
-    dropAc_ls=[]
-    dropAl_ls=[]
+    dropAc_ls = []
+    dropAl_ls = []
     for name, dendrite in data.items():
-        Dict=dendrite
+        Dict = dendrite
         dropAc_ls.append(Dict['branch_info']['dropAcross'])
         dropAl_ls.append(Dict['branch_info']['dropAlong'])
          
     df_ac = pd.DataFrame(dropAc_ls)
     df_al = pd.DataFrame(dropAl_ls)
     
+    # Second plot: Relative Diameter Drop Across
     fig, ax = plt.subplots(figsize=(4, 4))
-    ax.plot(df_ac.transpose())
-    ax=df_ac.boxplot(grid=False, showfliers=False)
-    ax.set_ylim()
+    ax = df_ac.boxplot(grid=False, showfliers=False, ax=ax)
+    ax.set_ylim(-0.5, 1)
     ax.set_yticks([-0.5, -0.25, 0, 0.25, 0.5, 0.75, 1])
-    ax.set_title("Diam Drop across dendritic branchs")
-    
-    #fig.savefig(plot_path +'/Diam_dropAcross_branch.svg', bbox_inches = 'tight', format="svg",transparent=True)   
-    
+    ax.set_title("Diam Drop across dendritic branches")
+    ax.set_xlabel("Branch No.")
+    ax.set_ylabel("Rel. Diameter drop")
+    ax.plot(df_ac.transpose())
+    # fig.savefig(plot_path + '/Diam_dropAcross_branch.svg', bbox_inches='tight', format="svg", transparent=True)
+
+    # Third plot: Relative Diameter Drop Along
     fig, ax = plt.subplots(figsize=(4, 4))
     ax.plot(df_al.transpose())
-    ax=df_al.boxplot(grid=False, showfliers=False)
-    ax.set_ylim()
+    ax = df_al.boxplot(grid=False, showfliers=False, ax=ax)
+    ax.set_ylim(-0.5, 1)
     ax.set_yticks([-0.5, -0.25, 0, 0.25, 0.5, 0.75, 1])
     ax.set_title("Diam Drop along dendritic branch")
-    
-    #fig.savefig(plot_path +'/Diam_dropAlong_branch.svg', bbox_inches = 'tight', format="svg",transparent=True)   
+    ax.set_xlabel("Branch No.")
+    ax.set_ylabel("Rel. Diameter drop")
+    # fig.savefig(plot_path + '/Diam_dropAlong_branch.svg', bbox_inches='tight', format="svg", transparent=True)
 
     return df
 
