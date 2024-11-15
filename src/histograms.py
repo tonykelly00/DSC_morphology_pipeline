@@ -74,4 +74,4 @@ def plot_z(df):
     ax2.plot(df.length, df_zscored) 
     ax2.set_ylim((ax1.get_ylim()[0] - m) / std, (ax1.get_ylim()[1] - m) / std)
 
-    return fig, ax1
+    return fig, ax1, df_zscored

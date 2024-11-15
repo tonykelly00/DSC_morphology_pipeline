@@ -300,6 +300,8 @@ def FindBranch(data):
         
         branch_data =[]
         branch_mean=[]
+        branch_median=[]
+        branch_std=[]
         branch_start=[]
         branch_end =[]
         for i in range(0, df.branchNo.max()+1, 1): 
@@ -309,10 +311,12 @@ def FindBranch(data):
             branch_df.smth=branch_df.smth/Dict['ex_factor']
             branch_data.append(branch_df)
             branch_mean.append(branch_df['smth'].mean())
+            branch_median.append(branch_df['smth'].median())
+            branch_std.append(branch_df['smth'].std())
             branch_start.append(branch_df.smth.iloc[50:200].mean())
             branch_end.append(branch_df.smth.iloc[-200:-50].mean())
         
-        branch_info={'branchs':branch_data, 'mean':branch_mean, 'start_diam': branch_start, 'end_diam':branch_end}
+        branch_info={'branchs':branch_data, 'mean':branch_mean, 'median': branch_median, 'std': branch_std, 'start_diam': branch_start, 'end_diam':branch_end}
         
         
         dropAlongBranch=[]
@@ -328,6 +332,27 @@ def FindBranch(data):
    
     df=pd.concat(mean_dic, axis=1)
 
+def z_score(data):
+    
+    #determine Z-score for each DSC
+    for name, dend_data in data.items():
+    
+        for d, DSC in enumerate(dend_data['DSCs']):
+            search=DSC['smth'].idxmin()
+            branch_data=dend_data['branch_info']['branchs']
+            # Loop through the list
+            for n, df in enumerate(branch_data):
+                if search in df.index:
+                    #print(f'Value found at branch {n}') 
+                    dsc=dend_data['DSC_properties'][d]['minimum']
+                    m=dend_data['branch_info']['median'][n]
+                    std=dend_data['branch_info']['std'][n]
+                    
+                    z=(dsc-m)/std
+                    dend_data['DSC_properties'][d]['Z-score']=z
+                    break
+                # else: 
+                #     print(f'Value {name, search} not found in the list.')
     
 def resistance_branch(dendbranch_dic, data):
 
