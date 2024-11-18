@@ -1,5 +1,5 @@
 ## Analysis pipeline and example data for ExM, EM and STED
-Here the analysis pipeline of for all dendrites reconstructed using ExM, EM and STED are provided as well as example reconstructions for each microscopy method.
+Here, the analysis pipeline of for all dendrites reconstructed using ExM, EM and STED are provided as well as example reconstructions for each microscopy method.
 Analysis of diameters extracted from imaging files is performed in python analysis code is provided on GitHub and extracted diameter data on Zenodo repository 
 
 ### Setup Instructions
@@ -15,14 +15,21 @@ The default code shows the reconstruction and identified DSCs for the example de
 ![example diameter plot](<figs/Diam_branch_C1_03_cell2_d3.png>)
 
 
-The full example dendritic morphology using expansion microscopy is provided with raw data, binarised data and local thickness (diameter) analysis
+In the ExM dataset, the full example dendritic morphology using expansion microscopy is provided with raw data, binarised data and local thickness (diameter) analysis
 
 ![example dendrite](<figs/20210201_dg-t1_af488-03_decon-Resolution Level 1_8bit_100-20000_Zproj.png>)
 
-Raw imaging files are provided in /raw and /decon folders for example dendrites with the accompanying <br>
+### ExM
+In the ExM data folder, full dataset is provided for data in 2020_06_08/T1_03. Raw imaging files in /raw and /decon folders for example dendrite with the accompanying <br>
     >> /binary folder - contains binarisation of the raw image using Fiji plugin MaxEntropy <br>
     >> /analysis folder - contains local thickness (_LD file) which is the diameter along the dendrite and skeletonisation of dendrites (SK file) to extract the diameter at each point along the dendrite that generated the .csv file in the /table folder
 
- 
+### STED
+In the STED dataset (3weeks_thy1_dg), the raw images of example dendrites are in /raw <br>
+    >> /binary folder - contains binarisation of the raw images using Fiji plugin MaxEntropy <br>
+    >> /analysis folder - contains local thickness (_LD file) which is the diameter along the dendrite and skeletonisation of dendrites (SK file) to extract the diameter at each point along the dendrite that generated the .csv file in the /table folder
+
+### EM
+In the EM dataset, the cropped EM images containing the example dendrites is provided with [IMOD](https://bio3d.colorado.edu/imod/) model of the dendrite and neighbouring structures. 
 
 
