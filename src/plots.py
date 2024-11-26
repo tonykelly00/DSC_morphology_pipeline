@@ -95,4 +95,18 @@ def branch_figs(data, plot_path):
 
 #update below
 #def resistance_figs(data):
-
+'''
+#calculate mean between points
+st=100
+end=200
+m=[]
+for k, d in dataSet.items():
+    start = int(st/d['res']*d['ex_factor'])
+    end = int(end/d['res']*d['ex_factor'])
+    # Calculate the mean of the subset
+    mean_value =d['data']['smth'][(d['data']['length'] >= start) & (d['data']['length'] <= end)].mean()/d['ex_factor']
+    print(mean_value)
+    m.append(mean_value)
+np.mean(m)
+#stats.sem(m)
+'''
