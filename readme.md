@@ -1,5 +1,5 @@
 ## Analysis pipeline and example data for ExM, EM and STED
-Here, the analysis pipeline of for all dendrites reconstructed using ExM, EM and STED are provided as well as example reconstructions for each microscopy method.
+Here, the analysis pipeline of all dendrites reconstructed using ExM, EM and STED are provided as well as example reconstructions for each microscopy method.
 Analysis of diameters extracted from imaging files is performed in python analysis code is provided on GitHub and extracted diameter data on Zenodo repository 
 
 ### Setup Instructions
