@@ -321,10 +321,30 @@ def FindBranch(data):
         
         dropAlongBranch=[]
         dropAcrossBranch=[]
-        for i in range(0, df.branchNo.max(), 1):
+        for i in range(0, df.branchNo.max()+1, 1):
             total_drop=branch_info['start_diam'][0]-branch_info['end_diam'][-1]
             dropAlongBranch.append((branch_info['start_diam'][i]-branch_info['end_diam'][i]) / total_drop)        
-            dropAcrossBranch.append((branch_info['end_diam'][i]-branch_info['start_diam'][i+1]) / total_drop)   
+            
+            if i<df.branchNo.max():
+                dropAcrossBranch.append((branch_info['end_diam'][i]-branch_info['start_diam'][i+1]) / total_drop)
+            else:
+                dropAcrossBranch.append(float('nan'))
+        
+        # ## vector approch
+        #         # 1. Calculate total drop once (no need to do it inside a loop)
+        # total_drop = branch_info['start_diam'].iloc[0] - branch_info['end_diam'].iloc[-1]
+
+        # # 2. Drop Along: (Start - End) / Total
+        # branch_info['along'] = (branch_info['start_diam'] - branch_info['end_diam']) / total_drop
+
+        # # 3. Drop Across: (Current End - Next Start) / Total
+        # # .shift(-1) brings the "next" value up to the current row
+        # next_start = branch_info['start_diam'].shift(-1)
+        # branch_info['across'] = (branch_info['end_diam'] - next_start) / total_drop
+
+        # # Fill the very last NaN in 'across' with 0
+        # branch_info['across'] = branch_info['across'].fillna(0)
+              
         
         branch_info.update({'total_drop':total_drop, 'dropAlong':dropAlongBranch, 'dropAcross': dropAcrossBranch})
         Dict['branch_info'] = branch_info
