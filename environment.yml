@@ -1,0 +1,11 @@
+name: BonnData
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - ipykernel
+  - pandas
+  - seaborn
+  - tqdm
+prefix: D:\anaconda3\envs\BonnData
