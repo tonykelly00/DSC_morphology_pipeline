@@ -1,35 +1,77 @@
-## Analysis pipeline and example data for ExM, EM and STED
-Here, the analysis pipeline of for all dendrites reconstructed using ExM, EM and STED are provided as well as example reconstructions for each microscopy method.
-Analysis of diameters extracted from imaging files is performed in python analysis code is provided on GitHub and extracted diameter data on Zenodo repository 
+# Morphology Analysis Pipeline
 
-### Setup Instructions
-Download the data repository from [Zenodo](https://zenodo.org/records/14037025?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6ImY4NDE2YWU2LTlmMmEtNGY4NS04M2EwLTg4NzhhMTY1NGRhYSIsImRhdGEiOnt9LCJyYW5kb20iOiJiMGI0YmUwYTg3MjI3MThiNjU5MmY4YjVkOGE3MDE5MiJ9.3r6XoHH6eZQwoqN2nKAh0WgprCR1NjNeP7sbtyx3r9XMjD7o_HtmfZ2qxccQYmhidxqBO5on_0IdoWTX1FDYQg) and the analysis code from [GitHub](https://github.com/tonykelly00/DSC_morphology_pipeline.git).
-In the .ipynb file, set root folder to location of repo_data/ 
+Analysis code and example data for distal dendrite reconstructions from ExM, EM, and STED imaging.
 
-### Organisation
-Analysis pipeline for each microscopy method run using the respective jupyter notebook. Which loads reconstruction of branch or branch segment from the provided .csv files found in respective data /table folder.
-Reconstructions are compared to raw and binary images and errors are manually corrected, with false positives removes and false negatives added. Changes are noted.
+The repository combines:
 
-The default code shows the reconstruction and identified DSCs for the example dendrite in the Figs. Diameters of other dendritic reconstructions can be explored.
+- Python analysis code for branch- and diameter-level measurements.
+- Jupyter notebooks for modality-specific exploratory analysis.
+- Example figures and example morphology files.
+
+The associated dataset is hosted on [Zenodo](https://zenodo.org/records/14037025). This repository contains the analysis pipeline and example notebook workflows.
+
+## Setup
+
+Create the conda environment from the exported environment file:
+
+```bash
+conda env create -f environment.yml
+conda activate BonnData
+```
+
+If you already have the environment, update it with:
+
+```bash
+conda env update -f environment.yml --prune
+```
+
+Open the notebooks in `notebooks/` and set the root directory expected by the notebook to your local data location when required.
+
+## Repository Layout
+
+- `data/`: input tables and morphology-related source data.
+- `figs/`: example figures used in notebooks and documentation.
+- `notebooks/`: modality-specific analysis notebooks and example outputs.
+- `output/`: generated plots and analysis exports.
+- `scripts/`: helper scripts for running parts of the workflow.
+- `src/`: reusable Python analysis modules.
+- `workflow/`: workflow-specific assets.
+
+## Analysis Workflow
+
+Each microscopy modality is analyzed through its corresponding notebook. The notebooks load branch or branch-segment reconstructions from CSV tables, compare reconstructions against raw and binary images, and support manual correction of false positives and false negatives before downstream quantification.
+
+The default code shows the reconstruction and identified DSCs for the example dendrite in the figures. Diameters of other dendritic reconstructions can also be explored.
 
 ![example diameter plot](<figs/Diam_branch_C1_03_cell2_d3.png>)
 
-
-In the ExM dataset, the full example dendritic morphology using expansion microscopy is provided with raw data, binarised data and local thickness (diameter) analysis
-
-![example dendrite](<figs/20210201_dg-t1_af488-03_decon-Resolution Level 1_8bit_100-20000_Zproj.png>)
-
 ### ExM
-In the ExM data folder, full dataset is provided for data in 2020_06_08/T1_03. Raw imaging files in /raw and /decon folders for example dendrite with the accompanying <br>
-    >> /binary folder - contains binarisation of the raw image using Fiji plugin MaxEntropy <br>
-    >> /analysis folder - contains local thickness (_LD file) which is the diameter along the dendrite and skeletonisation of dendrites (SK file) to extract the diameter at each point along the dendrite that generated the .csv file in the /table folder
+
+The ExM example dataset includes a full dendritic morphology reconstruction with raw images, binarized images, and local-thickness analysis outputs.
+
+![Example dendrite](<figs/20210201_dg-t1_af488-03_decon-Resolution Level 1_8bit_100-20000_Zproj.png>)
+
+Typical ExM folder contents include:
+
+- `raw/` and `decon/` image data.
+- `binary/` outputs generated from Fiji MaxEntropy binarization.
+- `analysis/` outputs including local thickness (`_LD`) and skeletonization (`SK`) files used to generate measurement tables.
 
 ### STED
-In the STED dataset (3weeks_thy1_dg), the raw images of example dendrites are in /raw <br>
-    >> /binary folder - contains binarisation of the raw images using Fiji plugin MaxEntropy <br>
-    >> /analysis folder - contains local thickness (_LD file) which is the diameter along the dendrite and skeletonisation of dendrites (SK file) to extract the diameter at each point along the dendrite that generated the .csv file in the /table folder
+
+The STED example dataset contains raw image volumes together with derived binary images and analysis products.
+
+Typical STED folder contents include:
+
+- `raw/` image data.
+- `binary/` outputs generated from Fiji MaxEntropy binarization.
+- `analysis/` outputs including local thickness (`_LD`) and skeletonization (`SK`) files used to generate measurement tables.
 
 ### EM
-In the EM dataset, the cropped EM images containing the example dendrites is provided with [IMOD](https://bio3d.colorado.edu/imod/) model of the dendrite and neighbouring structures. 
 
+The EM example dataset contains cropped EM images for example dendrites together with [IMOD](https://bio3d.colorado.edu/imod/) models of the dendrite and neighboring structures.
 
+## Notes
+
+- Generated outputs in `output/` are intentionally excluded from version control.
+- Several notebooks and example files are currently staged in the repository and can be committed alongside this README update if you want the GitHub repository to expose those examples.
