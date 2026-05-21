@@ -74,4 +74,3 @@ The EM example dataset contains cropped EM images for example dendrites together
 ## Notes
 
 - Generated outputs in `output/` are intentionally excluded from version control.
-- Several notebooks and example files are currently staged in the repository and can be committed alongside this README update if you want the GitHub repository to expose those examples.
