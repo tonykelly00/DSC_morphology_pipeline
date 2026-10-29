@@ -74,3 +74,15 @@ The EM example dataset contains cropped EM images for example dendrites together
 ## Notes
 
 - Generated outputs in `output/` are intentionally excluded from version control.
+
+## Citation
+
+If you use this analysis pipeline or dataset in your research, please cite our paper:
+
+> Kelly, T., Ofer, N., Rodriguez-Gatica, J. E., Döngi, M., Cissewski, N., Barboni, M., ... & Beck, H. (2026). Dendritic shaft constrictions shape synaptic integration in neurons. *Science Advances*, 12(37), eaec4911. https://doi.org/10.1126/sciadv.aec4911
+
+To reference or reproduce the exact computational environment and archived code snapshot:
+
+> Kelly, T. (2026). DSC Morphology Pipeline.
+> GitHub. https://github.com/tonykelly00/DSC_morphology_pipeline
+> Zenodo. https://doi.org/10.5281/zenodo.14037025

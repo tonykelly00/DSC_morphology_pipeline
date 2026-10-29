@@ -1,0 +1,76 @@
+cff-version: 1.2.0
+message: "If you use this software or computational pipeline in your research, please cite the associated research paper in Science Advances."
+title: "DSC Morphology Pipeline"
+type: software
+authors:
+  - family-names: "Kelly"
+    given-names: "Tony"
+    affiliation: "Institute of Experimental Epileptology and Cognition Research, University of Bonn"
+repository-code: "https://github.com/tonykelly00/DSC_morphology_pipeline"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.14037025"
+    description: "Zenodo archived dataset and code snapshot"
+license: "MIT"
+keywords:
+  - neuroscience
+  - dendrites
+  - morphology
+  - compartmentation
+  - image-processing
+  - python
+
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Kelly"
+      given-names: "Tony"
+    - family-names: "Ofer"
+      given-names: "Netanel"
+    - family-names: "Rodriguez-Gatica"
+      given-names: "Juan Eduardo"
+    - family-names: "Döngi"
+      given-names: "Michael"
+    - family-names: "Cissewski"
+      given-names: "Niclas"
+    - family-names: "Barboni"
+      given-names: "Michela"
+    - family-names: "Bethge"
+      given-names: "Philipp"
+    - family-names: "Godale"
+      given-names: "Christin M."
+    - family-names: "Yaser"
+      given-names: "Sarah"
+    - family-names: "Herde"
+      given-names: "Michel K."
+    - family-names: "Tillmann"
+      given-names: "Jens F."
+    - family-names: "Peter"
+      given-names: "Sabrina Ingrid"
+    - family-names: "Dupraz"
+      given-names: "Sebastian Enrique"
+    - family-names: "Koch"
+      given-names: "Henner"
+    - family-names: "Stein"
+      given-names: "Valentin"
+    - family-names: "Bradke"
+      given-names: "Frank"
+    - family-names: "Danzer"
+      given-names: "Steve C."
+    - family-names: "Tchumatchenko"
+      given-names: "Tatjana"
+    - family-names: "Schwarz"
+      given-names: "Martin K."
+    - family-names: "Kubitscheck"
+      given-names: "Ulrich"
+    - family-names: "Nägerl"
+      given-names: "U. Valentin"
+    - family-names: "Beck"
+      given-names: "Heinz"
+  title: "Dendritic shaft constrictions shape synaptic integration in neurons"
+  journal: "Science Advances"
+  volume: "12"
+  issue: "37"
+  pages: "eaec4911"
+  year: 2026
+  doi: "10.1126/sciadv.aec4911"
